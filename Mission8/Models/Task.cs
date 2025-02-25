@@ -6,20 +6,19 @@ namespace Mission8.Models
     public class Task
     {
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string name { get; set; }
 
-        public DateTime? DueDate { get; set; }
-
-        [Required]
-        public int Quadrant { get; set; }
-
-        public int? CategoryId { get; set; }
+        public DateTime? due_date { get; set; }
 
         [Required]
-        public bool Completed { get; set; } = false;
+        public int quadrant { get; set; }
+
+
+        [Required]
+        public bool completed { get; set; } = false;
 
         [ForeignKey("Categories")]
         public int? category_id { get; set; } 
