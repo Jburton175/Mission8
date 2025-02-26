@@ -2,6 +2,10 @@
 {
     public interface InterfaceMission8
     {
-        List<Task> Task { get; }
+        List<Task> Tasks { get; }
+
+        void AddTask(Task task);
+        Task GetTaskById(int id);
+        void UpdateTask(Task task);
     }
 }
