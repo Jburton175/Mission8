@@ -1,8 +1,69 @@
-@model TModel
-
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
 }
 
-<h2>title</h2>
+@model List<Mission8.Models.Task>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stephen Covey's Time Management Matrix</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .rotate-text {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            text-align: center;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Stephen Covey's Time Management Matrix</h2>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-4 text-center fw-bold border">Urgent</div>
+        <div class="col-4 text-center fw-bold border">Not Urgent</div>
+    </div>
+    <div class="row">
+        <div class="col-3 border rotate-text">Important</div>
+        <div class="col-4 border p-3">
+            <h5>Quadrant I</h5>
+            <p>Important / Urgent</p>
+            @foreach (var task in Model.Where(t => t.quadrant == 1)) {
+                <p>@task.name</p>
+            }
+        </div>
+        <div class="col-4 border p-3">
+            <h5>Quadrant II</h5>
+            <p>Important / Not Urgent</p>
+            @foreach (var task in Model.Where(t => t.quadrant == 2))
+            {
+                <p>@task.name</p>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 border rotate-text">Not Important</div>
+        <div class="col-4 border p-3">
+            <h5>Quadrant III</h5>
+            <p>Not Important / Urgent</p>
+            @foreach (var task in Model.Where(t => t.quadrant == 3))
+            {
+                <p>@task.name</p>
+            }
+        </div>
+        <div class="col-4 border p-3">
+            <h5>Quadrant IV</h5>
+            <p>Not Important / Not Urgent</p>
+            @foreach (var task in Model.Where(t => t.quadrant == 4))
+            {
+                <p>@task.name</p>
+            }
+        </div>
+    </div>
+</div>
+</body>
