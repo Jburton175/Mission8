@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Mission8.Models;
-
+using System.Collections.Generic;
+using System.Linq;
 
 public class EFMission8 : InterfaceMission8
 {
     private Mission8DBContext _context;
+
     public EFMission8(Mission8DBContext temp)
     {
         _context = temp;
@@ -29,4 +31,5 @@ public class EFMission8 : InterfaceMission8
         _context.SaveChanges();
     }
 }
+
 
