@@ -36,7 +36,16 @@ public class EFMission8 : InterfaceMission8
         return _context.Category.ToList();
     }
 
+    public void DeleteTask(Mission8.Models.Task task)
+    {
+        var delete = _context.Tasks.SingleOrDefault(t => t.TaskId == task.TaskId);
+        if (delete != null)
+        {
+            _context.Tasks.Remove(delete);
+            _context.SaveChanges();
+        }
 
+    }
 }
 
 

@@ -10,7 +10,7 @@ namespace Mission8.Models
         IEnumerable<Categories> GetCategories();
         Task GetTaskById(int id);
         void UpdateTask(Task task);
-
+        void DeleteTask(int id);
 
     }
 }

@@ -92,7 +92,13 @@ namespace Mission8.Controllers
 
         //[HttpPost]
         //public IActionResult Delete(Models.Task app)
-        //{ }
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _repo.DeleteTask(app);
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
 
     }
