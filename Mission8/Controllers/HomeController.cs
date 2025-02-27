@@ -12,7 +12,6 @@ namespace Mission8.Controllers
     {
         private InterfaceMission8 _repo;
 
-        // Constructor injection for the repository
         public HomeController(InterfaceMission8 temp)
         {
             _repo = temp;
@@ -37,22 +36,22 @@ namespace Mission8.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateTask()
+        public IActionResult CreateTasks()
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int TaskId)
         {
-            var record = _repo.GetTaskById(id);
+            var record = _repo.GetTaskById(TaskId);
 
             if (record == null)
             {
                 return NotFound();
             }
 
-            return View("CreateTask", record);
+            return View("CreateTasks", record);
         }
 
         [HttpPost]
@@ -64,8 +63,19 @@ namespace Mission8.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("CreateTask", app);
+            return View("CreateTasks", app);
         }
+
+        [HttpGet]
+        public IActionResult Delete(int TaskId)
+        {
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Models.Task app)
+        { }
+
+
     }
 }
 
