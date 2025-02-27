@@ -30,6 +30,13 @@ public class EFMission8 : InterfaceMission8
         _context.Update(task);
         _context.SaveChanges();
     }
+
+    public IEnumerable<Categories> GetCategories()
+    {
+        return _context.Category.ToList();
+    }
+
+
 }
 
 
