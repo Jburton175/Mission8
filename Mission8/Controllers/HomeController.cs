@@ -36,7 +36,7 @@ namespace Mission8.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateTasks()
+        public IActionResult CreateTask()
         {
             return View();
         }
@@ -69,11 +69,26 @@ namespace Mission8.Controllers
         [HttpGet]
         public IActionResult Delete(int TaskId)
         {
+            var record = _repo.Tasks.SingleOrDefault(x => x.TaskId == TaskId);
+            if (record == null)
+            {
+                return NotFound();
+            }
+            return View(record);
         }
 
         [HttpPost]
         public IActionResult Delete(Models.Task app)
-        { }
+        {
+            var temp = _repo.Tasks.Find(TaskId);
+            if (temp == null)
+            {
+                return NotFound();
+            }
+            _repo.Tasks.Remove(temp);
+            _repo.SaveChanges();
+            return RedirectToAction("CreateTask");
+        }
 
 
     }

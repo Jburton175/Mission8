@@ -7,5 +7,7 @@
         void AddTask(Task task);
         Task GetTaskById(int id);
         void UpdateTask(Task task);
+
+        void SaveChanges();
     }
 }
