@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Mission8.Models;
 
@@ -38,8 +40,24 @@ namespace Mission8.Controllers
         [HttpGet]
         public IActionResult CreateTask()
         {
+            ViewBag.Categories = new SelectList(_repo.GetCategories(), "category_id", "Category");
+
             return View();
         }
+
+
+        [HttpPost]
+        public IActionResult SaveTask(Models.Task app)
+        {
+            if (ModelState.IsValid)
+            {
+                _repo.UpdateTask(app);
+                return RedirectToAction("Index");
+            }
+
+            return View(app);
+        }
+
 
         [HttpGet]
         public IActionResult Edit(int TaskId)
@@ -51,7 +69,8 @@ namespace Mission8.Controllers
                 return NotFound();
             }
 
-            return View("CreateTasks", record);
+
+            return View("CreateTask", record);
         }
 
         [HttpPost]
@@ -63,31 +82,24 @@ namespace Mission8.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("CreateTasks", app);
+            return View(app);
         }
 
         [HttpGet]
         public IActionResult Delete(int TaskId)
         {
-            var record = _repo.Tasks.SingleOrDefault(x => x.TaskId == TaskId);
-            if (record == null)
-            {
-                return NotFound();
-            }
-            return View(record);
+            return View();
         }
 
         [HttpPost]
         public IActionResult Delete(Models.Task app)
         {
-            var temp = _repo.Tasks.Find(TaskId);
-            if (temp == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                _repo.DeleteTask(app);
+                return RedirectToAction("Index");
             }
-            _repo.Tasks.Remove(temp);
-            _repo.SaveChanges();
-            return RedirectToAction("CreateTask");
+            return View(app);
         }
 
 

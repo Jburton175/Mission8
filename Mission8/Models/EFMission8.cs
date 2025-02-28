@@ -30,6 +30,32 @@ public class EFMission8 : InterfaceMission8
         _context.Update(task);
         _context.SaveChanges();
     }
+
+    public IEnumerable<Categories> GetCategories()
+    {
+        return _context.Category.ToList();
+    }
+
+    public void DeleteTask(Mission8.Models.Task task)
+    {
+        var delete = _context.Tasks.SingleOrDefault(t => t.TaskId == task.TaskId);
+        if (delete != null)
+        {
+            _context.Tasks.Remove(delete);
+            _context.SaveChanges();
+        }
+
+    }
+
+    public void SaveChanges()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteTask(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 
