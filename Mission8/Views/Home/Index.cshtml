@@ -2,6 +2,7 @@
 }
 
 @model List<Mission8.Models.Task>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,50 +21,133 @@
         }
     </style>
 </head>
+
 <body>
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Stephen Covey's Time Management Matrix</h2>
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-4 text-center fw-bold border">Urgent</div>
-        <div class="col-4 text-center fw-bold border">Not Urgent</div>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Stephen Covey's Time Management Matrix</h2>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-4 text-center fw-bold border">Urgent</div>
+            <div class="col-4 text-center fw-bold border">Not Urgent</div>
+        </div>
+        <div class="row">
+            <div class="col-3 border rotate-text">Important</div>
+
+            <!-- Quadrant I -->
+            <div class="col-4 border p-3">
+                <h5>Quadrant I</h5>
+                <p>Important / Urgent</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var task in Model.Where(t => t.quadrant == 1))
+                        {
+                            <tr>
+                                <td>@task.name</td>
+                                <td>@task.due_date.ToString()</td>
+                                <td>
+                                    <a href="/Task/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/Task/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Quadrant II -->
+            <div class="col-4 border p-3">
+                <h5>Quadrant II</h5>
+                <p>Important / Not Urgent</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var task in Model.Where(t => t.quadrant == 2))
+                        {
+                            <tr>
+                                <td>@task.name</td>
+                                <td>@task.due_date.ToString()</td>
+                                <td>
+                                    <a href="/Task/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/Task/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3 border rotate-text">Not Important</div>
+
+            <!-- Quadrant III -->
+            <div class="col-4 border p-3">
+                <h5>Quadrant III</h5>
+                <p>Not Important / Urgent</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var task in Model.Where(t => t.quadrant == 3))
+                        {
+                            <tr>
+                                <td>@task.name</td>
+                                <td>@task.due_date.ToString()</td>
+                                <td>
+                                    <a href="/Task/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/Task/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Quadrant IV -->
+            <div class="col-4 border p-3">
+                <h5>Quadrant IV</h5>
+                <p>Not Important / Not Urgent</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var task in Model.Where(t => t.quadrant == 4))
+                        {
+                            <tr>
+                                <td>@task.name</td>
+                                <td>@task.due_date.ToString()</td>
+                                <td>
+                                    <a class="btn btn-warning btn-sm" asp-controller="Home" asp-action="Edit">Edit</a>
+                                    <a class="btn btn-danger btn-sm" asp-controller="Home" asp-action="Delete">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-3 border rotate-text">Important</div>
-        <div class="col-4 border p-3">
-            <h5>Quadrant I</h5>
-            <p>Important / Urgent</p>
-            @foreach (var task in Model.Where(t => t.quadrant == 1)) {
-                <p>@task.name</p>
-            }
-        </div>
-        <div class="col-4 border p-3">
-            <h5>Quadrant II</h5>
-            <p>Important / Not Urgent</p>
-            @foreach (var task in Model.Where(t => t.quadrant == 2))
-            {
-                <p>@task.name</p>
-            }
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3 border rotate-text">Not Important</div>
-        <div class="col-4 border p-3">
-            <h5>Quadrant III</h5>
-            <p>Not Important / Urgent</p>
-            @foreach (var task in Model.Where(t => t.quadrant == 3))
-            {
-                <p>@task.name</p>
-            }
-        </div>
-        <div class="col-4 border p-3">
-            <h5>Quadrant IV</h5>
-            <p>Not Important / Not Urgent</p>
-            @foreach (var task in Model.Where(t => t.quadrant == 4))
-            {
-                <p>@task.name</p>
-            }
-        </div>
-    </div>
-</div>
 </body>
