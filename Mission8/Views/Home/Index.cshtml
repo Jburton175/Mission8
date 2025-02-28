@@ -1,153 +1,224 @@
-@{
-}
-
 @model List<Mission8.Models.Task>
 
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
     <title>Stephen Covey's Time Management Matrix</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
     <style>
+        /* Make the table layout fixed so columns remain consistent */
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        /* Define the widths of each column:
+                   - 15% for the left column (Important / Not Important)
+                   - 42.5% + 42.5% for the two Quadrant columns
+                 */
+        col.left-col {
+            width: 15%;
+        }
+
+        col.quad-col {
+            width: 42.5%;
+        }
+
+        /* Rotate text for Important / Not Important */
         .rotate-text {
-            writing-mode: vertical-rl;
+            writing-mode: vertical-rl; /* vertical text direction */
             transform: rotate(180deg);
             text-align: center;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-weight: bold;
+            /* fix the cell height so it matches the top row visually */
+            height: 120px;
+            vertical-align: middle;
+        }
+
+        /* Optional smaller checkboxes */
+        .checkbox-small {
+            width: 16px;
+            height: 16px;
         }
     </style>
 </head>
-
 <body>
-    <div class="container mt-5">
+    <div class="container mt-4">
         <h2 class="text-center mb-4">Stephen Covey's Time Management Matrix</h2>
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-4 text-center fw-bold border">Urgent</div>
-            <div class="col-4 text-center fw-bold border">Not Urgent</div>
-        </div>
-        <div class="row">
-            <div class="col-3 border rotate-text">Important</div>
 
-            <!-- Quadrant I -->
-            <div class="col-4 border p-3">
-                <h5>Quadrant I</h5>
-                <p>Important / Urgent</p>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Due Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var task in Model.Where(t => t.quadrant == 1))
-                        {
-                            <tr>
-                                <td>@task.name</td>
-                                <td>@task.due_date.ToString()</td>
-                                <td>
-                                    <a href="/Task/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="/Task/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+        <table class="table table-bordered text-center align-middle">
+            <colgroup>
+                <!-- Left column for "Important"/"Not Important" -->
+                <col class="left-col" />
+                <!-- Two columns for Quadrants -->
+                <col class="quad-col" />
+                <col class="quad-col" />
+            </colgroup>
 
-            <!-- Quadrant II -->
-            <div class="col-4 border p-3">
-                <h5>Quadrant II</h5>
-                <p>Important / Not Urgent</p>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Due Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var task in Model.Where(t => t.quadrant == 2))
-                        {
-                            <tr>
-                                <td>@task.name</td>
-                                <td>@task.due_date.ToString()</td>
-                                <td>
-                                    <a href="/Task/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="/Task/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="fw-bold">Urgent</th>
+                    <th class="fw-bold">Not Urgent</th>
+                </tr>
+            </thead>
 
-        <div class="row">
-            <div class="col-3 border rotate-text">Not Important</div>
+            <!-- Table Body -->
+            <tbody>
+                <!-- Row for Quadrant I and II -->
+                <tr style="height: 120px;">
+                    <!-- "Important" cell, rotated text -->
+                    <th class="rotate-text">Important</th>
 
-            <!-- Quadrant III -->
-            <div class="col-4 border p-3">
-                <h5>Quadrant III</h5>
-                <p>Not Important / Urgent</p>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Due Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var task in Model.Where(t => t.quadrant == 3))
-                        {
-                            <tr>
-                                <td>@task.name</td>
-                                <td>@task.due_date.ToString()</td>
-                                <td>
-                                    <a href="/Task/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="/Task/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    <!-- Quadrant I -->
+                    <td>
+                        <h5>Quadrant I</h5>
+                        <p>Important / Urgent</p>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Completed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.Where(t => t.quadrant == 1))
+                                {
+                                    <tr>
+                                        <td>@task.name</td>
+                                        <td>@task.due_date</td>
+                                        <td>
+                                            <input type="checkbox" disabled @(task.completed ? "checked" : "") class="checkbox-small" />
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="/Home/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
+                                                <a href="/Home/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
 
-            <!-- Quadrant IV -->
-            <div class="col-4 border p-3">
-                <h5>Quadrant IV</h5>
-                <p>Not Important / Not Urgent</p>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Due Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var task in Model.Where(t => t.quadrant == 4))
-                        {
-                            <tr>
-                                <td>@task.name</td>
-                                <td>@task.due_date.ToString()</td>
-                                <td>
-                                    <a class="btn btn-warning btn-sm" asp-controller="Home" asp-action="Edit">Edit</a>
-                                    <a class="btn btn-danger btn-sm" asp-controller="Home" asp-action="Delete">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                    <!-- Quadrant II -->
+                    <td>
+                        <h5>Quadrant II</h5>
+                        <p>Important / Not Urgent</p>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Completed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.Where(t => t.quadrant == 2))
+                                {
+                                    <tr>
+                                        <td>@task.name</td>
+                                        <td>@task.due_date</td>
+                                        <td>
+                                            <input type="checkbox" disabled @(task.completed ? "checked" : "") class="checkbox-small" />
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="/Home/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
+                                                <a href="/Home/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Row for Quadrant III and IV -->
+                <tr style="height: 120px;">
+                    <!-- "Not Important" cell, rotated text -->
+                    <th class="rotate-text">Not Important</th>
+
+                    <!-- Quadrant III -->
+                    <td>
+                        <h5>Quadrant III</h5>
+                        <p>Not Important / Urgent</p>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Completed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.Where(t => t.quadrant == 3))
+                                {
+                                    <tr>
+                                        <td>@task.name</td>
+                                        <td>@task.due_date</td>
+                                        <td>
+                                            <input type="checkbox" disabled @(task.completed ? "checked" : "") class="checkbox-small" />
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="/Home/Edit/@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
+                                                <a href="/Home/Delete/@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <!-- Quadrant IV -->
+                    <td>
+                        <h5>Quadrant IV</h5>
+                        <p>Not Important / Not Urgent</p>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Due Date</th>
+                                    <th>Completed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in Model.Where(t => t.quadrant == 4))
+                                {
+                                    <tr>
+                                        <td>@task.name</td>
+                                        <td>@task.due_date</td>
+                                        <td>
+                                            <input type="checkbox" disabled @(task.completed ? "checked" : "") class="checkbox-small" />
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-controller="Home" asp-action="Edit" asp-route-id="@task.TaskId" class="btn btn-warning btn-sm">Edit</a>
+                                                <a asp-controller="Home" asp-action="Delete" asp-route-id="@task.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
+</html>
+
+

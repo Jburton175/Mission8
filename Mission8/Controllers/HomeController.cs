@@ -42,36 +42,67 @@ namespace Mission8.Controllers
         {
             ViewBag.Categories = new SelectList(_repo.GetCategories(), "category_id", "Category");
 
-            return View();
+            // Ensure the model has a default TaskId (0 for new tasks)
+            return View(new Mission8.Models.Task { TaskId = 0 });
         }
-
 
         [HttpPost]
-        public IActionResult SaveTask(Models.Task app)
+        public IActionResult SaveTask(Mission8.Models.Task app)
         {
-            if (ModelState.IsValid)
+            Debug.WriteLine("Received Task:");
+            Debug.WriteLine($"Name: {app.name}");
+            Debug.WriteLine($"DueDate: {app.due_date}");
+            Debug.WriteLine($"Quadrant: {app.quadrant}");
+            Debug.WriteLine($"Completed: {app.completed}");
+
+            if (!ModelState.IsValid)
             {
-                _repo.UpdateTask(app);
-                return RedirectToAction("Index");
+                Debug.WriteLine("Model is invalid.");
+                foreach (var key in ModelState.Keys)
+                {
+                    foreach (var error in ModelState[key].Errors)
+                    {
+                        Debug.WriteLine($"Validation Error - {key}: {error.ErrorMessage}");
+                    }
+                }
+
+                ViewBag.ErrorMessage = "There was an error saving the task. Please check the inputs.";
+                ViewBag.Categories = new SelectList(_repo.GetCategories(), "category_id", "Category");
+                return View("CreateTask", app);
             }
 
-            return View(app);
+            try
+            {
+                _repo.AddTask(app);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception: " + ex.Message);
+                return View("CreateTask", app);
+            }
         }
+
+
+
+
+
 
 
         [HttpGet]
-        public IActionResult Edit(int TaskId)
+        public IActionResult Edit(int id)
         {
-            var record = _repo.GetTaskById(TaskId);
-
+            var record = _repo.GetTaskById(id);
             if (record == null)
             {
                 return NotFound();
             }
 
+            ViewBag.Categories = new SelectList(_repo.GetCategories(), "category_id", "Category");
 
             return View("CreateTask", record);
         }
+
 
         [HttpPost]
         public IActionResult Edit(Models.Task app)
@@ -86,21 +117,32 @@ namespace Mission8.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int TaskId)
+        public IActionResult Delete(int id)
         {
-            return View();
+            var record = _repo.GetTaskById(id);
+            if (record == null)
+            {
+                return NotFound();
+            }
+            return View(record); 
         }
 
+
+
         [HttpPost]
-        public IActionResult Delete(Models.Task app)
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteTask(int id)
         {
-            if (ModelState.IsValid)
+            var task = _repo.GetTaskById(id);
+            if (task == null)
             {
-                _repo.DeleteTask(app);
-                return RedirectToAction("Index");
+                return NotFound();
             }
-            return View(app);
+            _repo.DeleteTask(task);
+            return RedirectToAction("Index");
         }
+
 
 
     }

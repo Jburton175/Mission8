@@ -21,7 +21,8 @@ namespace Mission8.Models
         public bool completed { get; set; } = false;
 
         [ForeignKey("Categories")]
-        public int? category_id { get; set; } 
+        public int? CategoryId { get; set; }
+
         public Categories? Category { get; set; }
     }
 }

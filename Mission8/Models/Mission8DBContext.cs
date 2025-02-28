@@ -18,7 +18,7 @@ namespace Mission8.Models
             modelBuilder.Entity<Task>()
                 .HasOne(t => t.Category)
                 .WithMany()
-                .HasForeignKey(t => t.category_id);
+                .HasForeignKey(t => t.CategoryId);
         }
     }
 }
