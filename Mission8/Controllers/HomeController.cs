@@ -50,6 +50,7 @@ namespace Mission8.Controllers
         public IActionResult SaveTask(Mission8.Models.Task app)
         {
             Debug.WriteLine("Received Task:");
+            Debug.WriteLine($"TaskId: {app.TaskId}");
             Debug.WriteLine($"Name: {app.name}");
             Debug.WriteLine($"DueDate: {app.due_date}");
             Debug.WriteLine($"Quadrant: {app.quadrant}");
@@ -73,7 +74,15 @@ namespace Mission8.Controllers
 
             try
             {
-                _repo.AddTask(app);
+                if (app.TaskId == 0) // If TaskId is 0, it's a new task
+                {
+                    _repo.AddTask(app);
+                }
+                else // If TaskId exists, update the task
+                {
+                    _repo.UpdateTask(app);
+                }
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -82,6 +91,7 @@ namespace Mission8.Controllers
                 return View("CreateTask", app);
             }
         }
+
 
 
 

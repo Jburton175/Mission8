@@ -27,9 +27,21 @@ public class EFMission8 : InterfaceMission8
 
     public void UpdateTask(Mission8.Models.Task task)
     {
-        _context.Update(task);
-        _context.SaveChanges();
+        var existingTask = _context.Tasks.FirstOrDefault(t => t.TaskId == task.TaskId);
+    
+        if (existingTask != null)
+        {
+            existingTask.name = task.name;
+            existingTask.due_date = task.due_date;
+            existingTask.quadrant = task.quadrant;
+            existingTask.completed = task.completed;
+            existingTask.CategoryId = task.CategoryId;
+
+            _context.Update(existingTask); // Mark for update
+            _context.SaveChanges(); // Save changes
+        }
     }
+
 
     public IEnumerable<Categories> GetCategories()
     {
